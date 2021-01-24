@@ -13,11 +13,21 @@ namespace ServicioMemorama
     public interface ILoginService
     {
         [OperationContract]
-        bool Login(String nombre, string contrasenia);
+        bool Login(string nombre, string contrasenia);
 
         [OperationContract(IsOneWay = true)]
         void Conectarse(Jugador jugador);
+
+        [OperationContract]
+        bool BuscarClientePorNombre(string nickName);
+
+        [OperationContract]
+        Dictionary<Jugador, ILoginServiceCallback> ObtenerClientes();
+
+        [OperationContract(IsOneWay = true)]
+        void Desconectarse(Jugador jugador);
     }
+
 
     [ServiceContract]
     public interface ILoginServiceCallback
@@ -26,6 +36,6 @@ namespace ServicioMemorama
         void VerificarUsuarioLogeado(bool logeado);
 
         [OperationContract(IsOneWay = true)]
-        void UsuariosConectados(ObservableCollection<Jugador> jugadores);
+        void UsuariosConectados(ObservableCollection<Jugador> jugadores);       
     }
 }

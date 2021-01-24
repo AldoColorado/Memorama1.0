@@ -18,7 +18,6 @@ namespace ServicioMemorama
         void EnviarCorreoRegistro(string correo, string codigoDeRegistro);
     }
 
-    [ServiceContract]
     public interface IRegistroServiceCallback
     {
         [OperationContract(IsOneWay = true)]

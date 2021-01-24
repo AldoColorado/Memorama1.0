@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MemoramaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MemoramaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="EstadisticaPartida">
           <Key>
             <PropertyRef Name="idJugador" />
@@ -39,7 +39,7 @@
             <PropertyRef Name="idPartida" />
           </Key>
           <Property Name="idPartida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codigo" Type="varchar" MaxLength="1" />
+          <Property Name="codigo" Type="varchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="PartidaTarjeta">
           <Key>
@@ -144,8 +144,7 @@
             <End Role="PartidaTarjeta" EntitySet="PartidaTarjeta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MemoramaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -188,7 +187,7 @@
             <PropertyRef Name="idPartida" />
           </Key>
           <Property Name="idPartida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codigo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="codigo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="EstadisticaPartida" Relationship="Self.FK_Partida" FromRole="Partida" ToRole="EstadisticaPartida" />
           <NavigationProperty Name="Tarjeta" Relationship="Self.PartidaTarjeta" FromRole="Partida" ToRole="Tarjeta" />
         </EntityType>

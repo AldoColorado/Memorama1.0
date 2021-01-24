@@ -46,21 +46,26 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=3.2.0.1979, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.3.2.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modelo\AbstractCRUD.cs" />
+    <Compile Include="Modelo\Carta.cs" />
     <Compile Include="Modelo\EstadisticaPartida.cs">
       <DependentUpon>Memorama.tt</DependentUpon>
     </Compile>
@@ -89,6 +94,7 @@
     <Compile Include="Modelo\Partida.cs">
       <DependentUpon>Memorama.tt</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\PartidaDAO.cs" />
     <Compile Include="Modelo\Tarjeta.cs">
       <DependentUpon>Memorama.tt</DependentUpon>
     </Compile>

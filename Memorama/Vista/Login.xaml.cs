@@ -1,7 +1,8 @@
-﻿
+﻿using Memorama.ProxyLogin;
 using Modelo.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -24,10 +25,19 @@ namespace Memorama
     public partial class Login : ProxyLogin.ILoginServiceCallback
     {
         public bool aceptado = false;
+        private ObservableCollection<Jugador> jugadoresConectados;
+        Dictionary<Jugador, ILoginServiceCallback> jugadoresEnLinea = new Dictionary<Jugador, ILoginServiceCallback>();
+        InstanceContext contexto;
+        ProxyLogin.LoginServiceClient servidor;
+        
         public Login()
         {
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             InitializeComponent();
+            jugadoresConectados = new ObservableCollection<Jugador>();
+
+            contexto = new InstanceContext(this);
+            servidor = new ProxyLogin.LoginServiceClient(contexto);
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -37,30 +47,19 @@ namespace Memorama
 
         private void BotonIngresar(object sender, RoutedEventArgs e)
         {
-            bool logeado = false;
-            Jugador jugador = new Jugador();
 
+            Jugador jugador = new Jugador();
             jugador.nickName = TextoNickName.Text;
             jugador.contrasenia = TextoPassword.Password;
 
-            InstanceContext contexto = new InstanceContext(this);
-            ProxyLogin.LoginServiceClient servidor = new ProxyLogin.LoginServiceClient(contexto);
-            
-
-            logeado = servidor.Login(TextoNickName.Text, TextoPassword.Password);
-            System.Threading.Thread.Sleep(new TimeSpan(0, 0, 10));
-
-            if(logeado)
+            if(Logearse(jugador))
             {
                 servidor?.Conectarse(jugador);
-                Lobby ventanaLobby = new Lobby();
-                Window.GetWindow(this).Close();
-                ventanaLobby.Show();
+                MostrarVentanaLoby(jugador);
             }
             else
             {
                 MessageBox.Show("Usuario o contraseña incorrecta");
-                Application.Current.Shutdown();
             }
         }
 
@@ -69,7 +68,6 @@ namespace Memorama
             Registrarse ventanaRegistrase = new Registrarse();
             Window.GetWindow(this).Close();
             ventanaRegistrase.Show();
-
         }
 
         private void BotonRecuperarContrasenia(object sender, RoutedEventArgs e)
@@ -79,14 +77,45 @@ namespace Memorama
             ventanaRecuperarContrasenia.Show();
         }
 
-        public void UsuariosConectados(Jugador[] jugadores)
-        {
-            
-        }
-
         public void VerificarUsuarioLogeado(bool logeado)
         {
             this.aceptado = logeado;
         }
+
+        public bool Logearse(Jugador jugador)
+        {
+            bool logeado = false;
+
+            try
+            {
+                logeado = servidor.Login(TextoNickName.Text, TextoPassword.Password);
+            }catch(Exception ex)
+            {
+                MessageBox.Show("ERROR: El servidor no esta disponible, intente de nuevo más tarde");
+                Application.Current.Shutdown();
+            }
+
+            return logeado;
+        }
+
+        public void UsuariosConectados(Jugador[] jugadores)
+        {
+            
+            jugadoresConectados.Clear();
+
+            foreach(Jugador c in jugadores)
+            {
+                jugadoresConectados.Add(c);
+            }
+            
+        }
+
+        public void MostrarVentanaLoby(Jugador jugador)
+        {
+            Lobby ventanaLobby = new Lobby(jugadoresConectados, jugador);
+            Window.GetWindow(this).Close();
+            ventanaLobby.Show();
+        }
+
     }
 }

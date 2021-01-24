@@ -56,6 +56,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Channels" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -74,7 +75,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\ProxyJuego\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ProxyLogin\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ProxyPartida\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -84,8 +95,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Juego\JuegoMemorama.cs" />
+    <Compile Include="Juego\Tablero.cs" />
     <Compile Include="Vista\ConfirmarRegistro.xaml.cs">
       <DependentUpon>ConfirmarRegistro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\CrearPartida.xaml.cs">
+      <DependentUpon>CrearPartida.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\Juego.xaml.cs">
+      <DependentUpon>Juego.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vista\Lobby.xaml.cs">
       <DependentUpon>Lobby.xaml</DependentUpon>
@@ -97,6 +116,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Vista\PrePartida.xaml.cs">
+      <DependentUpon>PrePartida.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vista\RecuperarContrasenia.xaml.cs">
       <DependentUpon>RecuperarContrasenia.xaml</DependentUpon>
     </Compile>
@@ -106,7 +128,18 @@
     <Compile Include="Vista\Registrarse.xaml.cs">
       <DependentUpon>Registrarse.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vista\UnirseAPartida.xaml.cs">
+      <DependentUpon>UnirseAPartida.xaml</DependentUpon>
+    </Compile>
     <Page Include="Vista\ConfirmarRegistro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\CrearPartida.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\Juego.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -115,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vista\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\PrePartida.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vista\Registrarse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\UnirseAPartida.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,6 +190,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\ProxyJuego\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyJuego\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyJuego\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyJuego\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyJuego\ServicioMemorama.wsdl" />
     <None Include="Connected Services\ProxyLogin\item.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -158,7 +212,23 @@
     <None Include="Connected Services\ProxyLogin\item2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\ProxyLogin\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\ProxyLogin\ServicioMemorama.wsdl" />
+    <None Include="Connected Services\ProxyPartida\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyPartida\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyPartida\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyPartida\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyPartida\ServicioMemorama.wsdl" />
     <None Include="Connected Services\ProxyRegistro\item.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -166,6 +236,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ProxyRegistro\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyRegistro\item3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ProxyRegistro\ServicioMemorama.wsdl" />
@@ -188,14 +261,16 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\ProxyLogin\" />
-    <WCFMetadataStorage Include="Connected Services\ProxyRegistro\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Modelo\Modelo.csproj">
       <Project>{493bec90-b39b-444d-9940-b1392df0e41a}</Project>
       <Name>Modelo</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ProxyJuego\" />
+    <WCFMetadataStorage Include="Connected Services\ProxyLogin\" />
+    <WCFMetadataStorage Include="Connected Services\ProxyPartida\" />
+    <WCFMetadataStorage Include="Connected Services\ProxyRegistro\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\ProxyLogin\configuration91.svcinfo" />
@@ -217,6 +292,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\ProxyRegistro\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ProxyPartida\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ProxyPartida\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ProxyPartida\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ProxyJuego\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ProxyJuego\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ProxyJuego\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

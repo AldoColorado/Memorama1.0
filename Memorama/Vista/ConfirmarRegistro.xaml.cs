@@ -55,7 +55,6 @@ namespace Memorama
         private void BotonRegistrarse(object sender, RoutedEventArgs e)
         {
 
-
             if(codigo == TextoCodigo.Text)
             {
                 InstanceContext contexto = new InstanceContext(this);

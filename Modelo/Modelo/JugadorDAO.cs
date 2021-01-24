@@ -55,38 +55,7 @@ namespace Modelo
                 Console.WriteLine(ex.GetBaseException());
                 usuarioValido = false;
             }
-            //try
-            //{
-
-            //    Usuarios buscar = entityManager.Usuario.Where(q => q.nickname == nickName && q.contrasenia == contrasenia).First<Usuarios>();
-
-            //    if(buscar == null)
-            //    {
-            //        usuarioValido = false;
-            //        throw new ArgumentException("Usuario no encontrado en la base de datos");
-                    
-            //    }
-            //    else
-            //    {
-            //        usuarioValido = true;
-            //    }
-            //}
-            //catch(System.InvalidOperationException) {
-            //    usuarioValido = false;
-            //}
-
-            //return usuarioValido;
-            //try
-            //{
-            //    Usuario buscar = db.Usuario.Where(q => q.nickname == nickName && q.contrasenia == contrasenia).First<Usuario>();
-            //    if(buscar != null)
-            //    {
-            //        usuarioValido = true;
-            //    }
-            //}
-            //catch(System.InvalidOperationException) {
-            //    usuarioValido = false;
-            //}
+            
 
             return usuarioValido;
 

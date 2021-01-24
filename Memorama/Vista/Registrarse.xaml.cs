@@ -57,7 +57,6 @@ namespace Memorama
 
             servidor?.EnviarCorreoRegistro(TextoCorreo.Text, codigo);
            
-
             ConfirmarRegistro ventanaConfirmarRegistro = new ConfirmarRegistro(jugador, codigo);
             ventanaConfirmarRegistro.Show();
             Window.GetWindow(this).Close();
@@ -74,40 +73,6 @@ namespace Memorama
                 codigo += value;
             }
         }
-
-        //private void EnviarCorreo()
-        //{
-        //    System.Net.Mail.MailMessage mail = new System.Net.Mail.MailMessage();
-        //    GenerarCodigoRegistro();
-
-
-        //    mail.To.Add(TextoCorreo.Text);
-        //    mail.Subject = "Confirmación de registro en Memorama";
-        //    mail.SubjectEncoding = System.Text.Encoding.UTF8;
-        //    mail.Body = "Tu codigo de confirmación es:" + codigo;
-        //    mail.BodyEncoding = System.Text.Encoding.UTF8;
-        //    mail.IsBodyHtml = true;
-        //    mail.From = new System.Net.Mail.MailAddress("aldocoloradocd@gmail.com");
-
-        //    System.Net.Mail.SmtpClient cliente = new System.Net.Mail.SmtpClient();
-
-        //    cliente.Credentials = new System.Net.NetworkCredential("aldocoloradocd@gmail.com", "LesCactus27");
-
-        //    cliente.Port = 587;
-        //    cliente.EnableSsl = true;
-
-        //    cliente.Host = "smtp.gmail.com"; //"mail.dominio.com"
-
-        //    try
-        //    {
-        //        cliente.Send(mail);
-        //    }
-        //    catch(Exception)
-        //    {
-        //        MessageBox.Show("Error al enviar el correo");
-        //    }
-
-        //}
 
         public void VerificarCreacionJugador(bool creado)
         {

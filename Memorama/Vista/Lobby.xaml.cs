@@ -1,71 +1,80 @@
-﻿using Modelo.Modelo;
+﻿using Memorama.ProxyLogin;
+using Memorama.Vista;
+using Modelo.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Memorama
 {
     /// <summary>
     /// Lógica de interacción para Lobby.xaml
     /// </summary>
-    public partial class Lobby //Proxy.IServiceCallback
+    public partial class Lobby :ProxyLogin.ILoginServiceCallback
     {
-        private ObservableCollection<Jugador> jugadoresConectados;
+        InstanceContext contexto;
+        ProxyLogin.LoginServiceClient servidor;
 
-        public Lobby()
+        private ObservableCollection<Jugador> jugadoresConectados;
+        Dictionary<Jugador, ILoginServiceCallback> clientes = new Dictionary<Jugador, ILoginServiceCallback>();
+        Jugador jugador = new Jugador();
+
+        public Lobby(ObservableCollection<Jugador> jugadores, Jugador jugador)
         {
+            this.jugador = jugador;
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             InitializeComponent();
+            //jugadoresConectados = new ObservableCollection<Jugador>(); Creo que no se usa
+            TxtJugador.Text = jugador.nickName;
 
-            jugadoresConectados = new ObservableCollection<Jugador>();
-            InstanceContext contexto = new InstanceContext(this);
-            //Proxy.ServiceClient servidor = new Proxy.ServiceClient(contexto);
+            jugadoresEnLinea.Items.Clear();
+            jugadoresEnLinea.ItemsSource = jugadores;
 
-            //jugadoresConectados = servidor.GetUsuariosConectados();
-
-            listaJugadores.ItemsSource = jugadoresConectados;
+            contexto = new InstanceContext(this);
+            servidor = new ProxyLogin.LoginServiceClient(contexto);      
         }
 
-        public void RecibirMensaje(string mensaje)
-        {
-            throw new NotImplementedException();  
-        }
+        
 
         public void UsuariosConectados(Jugador[] jugadores)
         {
-            throw new NotImplementedException();
+            jugadoresConectados.Clear();
+
+            foreach(Jugador c in jugadores)
+            {
+                jugadoresConectados.Add(c);
+            }
         }
 
-        public void VerificarCreacionJugador(bool creado)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void VerificarEnvioDeCorreo(bool enviado)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void VerificarEnvioDeCorreoRecuperarContrasenia(bool enviado)
-        {
-            throw new NotImplementedException();
-        }
 
         public void VerificarUsuarioLogeado(bool logeado)
         {
             throw new NotImplementedException();
         }
+
+        private void BotonCrearPartida(object sender, System.Windows.RoutedEventArgs e)
+        {
+            CrearPartida ventanaConfirmarRegistro = new CrearPartida(jugador);
+            ventanaConfirmarRegistro.Show();
+            Window.GetWindow(this).Close();
+        }
+
+        private void BotonUnirseAPartida(object sender, System.Windows.RoutedEventArgs e)
+        {
+            UnirseAPartida ventanaUnirseAPartida = new UnirseAPartida(jugador);
+            ventanaUnirseAPartida.Show();
+            Window.GetWindow(this).Close();
+        }
+
+        private void BotonSalir(object sender, RoutedEventArgs e)
+        {
+            servidor.Desconectarse(jugador);
+            Window.GetWindow(this).Close();
+        }
+
+        
     }
 }
