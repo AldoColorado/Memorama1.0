@@ -29,7 +29,6 @@ namespace Modelo.Modelo
         public virtual DbSet<Historial> Historial { get; set; }
         public virtual DbSet<Jugador> Jugador { get; set; }
         public virtual DbSet<Partida> Partida { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Tarjeta> Tarjeta { get; set; }
     }
 }

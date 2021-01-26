@@ -4,12 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ad00c59ade6e45e7b2a6a92fd04aff62" Name="Diagram1">
-        <EntityTypeShape EntityType="MemoramaModel.EstadisticaPartida" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+      <Diagram DiagramId="c04f423f112941a399cdfbf5502e9734" Name="Diagram1">
+        <EntityTypeShape EntityType="MemoramaModel.EstadisticaPartida" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MemoramaModel.Historial" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MemoramaModel.Jugador" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MemoramaModel.Partida" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MemoramaModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MemoramaModel.Tarjeta" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
         <AssociationConnector Association="MemoramaModel.FK_Jugador" ManuallyRouted="false" />
         <AssociationConnector Association="MemoramaModel.FK_Partida" ManuallyRouted="false" />
