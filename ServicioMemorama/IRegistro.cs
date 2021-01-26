@@ -1,4 +1,5 @@
-﻿using Modelo.Modelo;
+﻿using Modelo;
+using Modelo.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
