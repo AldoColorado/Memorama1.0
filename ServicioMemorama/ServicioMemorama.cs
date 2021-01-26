@@ -31,24 +31,31 @@ namespace ServicioMemorama
 
         public bool Login(string nombre, string contrasenia)
         {
+            Console.WriteLine("Estoy en Login xd");
             bool seLogeo = false;
             bool usuarioLogueado = false;
             JugadorDAO usuarioALoguear = new JugadorDAO();
-
-            string contraseniaEncriptada = string.Empty;
-            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(contrasenia);
-            contraseniaEncriptada = Convert.ToBase64String(encryted);
-
-            usuarioLogueado = usuarioALoguear.ValidarUsuario(nombre, contraseniaEncriptada);
-
-            if(usuarioLogueado)
+            try
             {
-                Console.WriteLine("Usuario Logeado");
-                seLogeo = true;
+                string contraseniaEncriptada = string.Empty;
+                byte[] encryted = System.Text.Encoding.Unicode.GetBytes(contrasenia);
+                contraseniaEncriptada = Convert.ToBase64String(encryted);
+
+                usuarioLogueado = usuarioALoguear.ValidarUsuario(nombre, contraseniaEncriptada);
+
+                if (usuarioLogueado)
+                {
+                    Console.WriteLine("Usuario Logeado");
+                    seLogeo = true;
+                }
+                else
+                {
+                    Console.WriteLine("No paso Logeado");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                Console.WriteLine("No paso Logeado");
+                Console.WriteLine(ex.ToString());
             }
             return seLogeo;
         }
@@ -178,6 +185,92 @@ namespace ServicioMemorama
         }
     }
 
+    public partial class ServicioMemorama : IRecuperarContraseniaService
+    {
+        public bool EnviarCorreoRecuperacion(string correo, string codigoRecuperacion)
+        {
+            bool correoEnviado;
+
+            System.Net.Mail.MailMessage mail = new System.Net.Mail.MailMessage();
+
+            mail.To.Add(correo);
+            mail.Subject = "Código de recuperación de contraseña";
+            mail.SubjectEncoding = System.Text.Encoding.UTF8;
+            mail.Body = "Tu código de recuperación es: " + codigoRecuperacion;
+            mail.BodyEncoding = System.Text.Encoding.UTF8;
+            mail.IsBodyHtml = true;
+            mail.From = new System.Net.Mail.MailAddress("memogamelisuv@gmail.com");
+
+            System.Net.Mail.SmtpClient cliente = new System.Net.Mail.SmtpClient();
+
+            cliente.Credentials = new System.Net.NetworkCredential("memogamelisuv@gmail.com", "luzio1234");
+
+            cliente.Port = 587;
+            cliente.EnableSsl = true;
+
+            cliente.Host = "smtp.gmail.com";
+
+            try
+            {
+                cliente.Send(mail);
+                correoEnviado = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetBaseException());
+                correoEnviado = false;
+            }
+
+            if (correoEnviado)
+            {
+                Console.WriteLine("El correo se ha enviado");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("No se pudo enviar el correo");
+                return false;
+            }
+        }
+
+        public bool ValidarJugadorPorCorreo(string correo)
+        {
+            bool encontrado;
+            JugadorDAO jugadorABuscar = new JugadorDAO();
+
+            encontrado = jugadorABuscar.ValidarJugadorPorCorreo(correo);
+
+            if (encontrado)
+            {
+                Console.WriteLine("Se encontró jugador");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("No se encontró jugador");
+                return false;
+            }
+        }
+
+        public bool ActualizarContrasenia(string contrasenia, string correo)
+        {
+            JugadorDAO jugadorDAO = new JugadorDAO();
+            Jugador jugador = jugadorDAO.ObtenerJugadorPorCorreo(correo);
+            bool seCambioContrasenia = false;
+
+            if (jugador != null)
+            {
+                seCambioContrasenia = jugadorDAO.ActualizarContrasenia(contrasenia, jugador.nickName);
+                Console.WriteLine("Se actulizó contraseña");
+            }
+            else
+            {
+                Console.WriteLine("No se encontró jugador");
+                return false;
+            }
+            return seCambioContrasenia;
+        }
+    }
     public partial class ServicioMemorama : IPartidaService
     {
         private ObservableCollection<Jugador> jugadoresEnPartida = new ObservableCollection<Jugador>();
@@ -249,17 +342,23 @@ namespace ServicioMemorama
         {
             bool creada = false;
             PartidaDAO partidaDAO = new PartidaDAO();
-            creada = partidaDAO.Crear(partida);
-
-            if(creada)
+            try
             {
-                Console.WriteLine("Partida creada");
-            }
-            else
-            {
-                Console.WriteLine("Partida no creada");
-            }
+                creada = partidaDAO.Crear(partida);
 
+                if (creada)
+                {
+                    Console.WriteLine("Partida creada");
+                }
+                else
+                {
+                    Console.WriteLine("Partida no creada");
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
             return creada;
         }
 

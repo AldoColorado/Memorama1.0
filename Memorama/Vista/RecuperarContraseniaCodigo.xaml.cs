@@ -19,14 +19,30 @@ namespace Memorama
     /// </summary>
     public partial class RecuperarContraseniaCodigo : Window
     {
-        public RecuperarContraseniaCodigo()
+        string correo;
+        string codigo;
+        public RecuperarContraseniaCodigo(string codigo, string correo)
         {
+            this.codigo = codigo;
+            this.correo = correo;
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
 
         private void BotonContinuar(object sender, RoutedEventArgs e)
         {
+            string codigoIngresado = TextoCodigo.Text;
 
+            if (codigoIngresado == codigo)
+            {
+                CambiarContrasenia ventanaCambiarContrasenia = new CambiarContrasenia(correo);
+                ventanaCambiarContrasenia.Show();
+                Window.GetWindow(this).Close();
+            }
+            else
+            {
+                MessageBox.Show("El código de comprobación no es el correcto");
+            }
         }
     }
 }

@@ -93,5 +93,49 @@ namespace Modelo
         {
             throw new NotImplementedException();
         }
+
+        public bool ValidarJugadorPorCorreo(string correo)
+        {
+            bool encontrado = false;
+            try
+            {
+                Jugador buscar = db.Jugador.Where(q => q.correoElectronico.Equals(correo)).FirstOrDefault();
+                if (buscar != null)
+                {
+                    encontrado = true;
+                }
+            }
+            catch (System.InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.GetBaseException());
+            }
+            return encontrado;
+        }
+
+        public Jugador ObtenerJugadorPorCorreo(string correo)
+        {
+            try
+            {
+                Jugador buscar = db.Jugador.Where(q => q.correoElectronico.Equals(correo)).FirstOrDefault();
+                return buscar;
+            }
+            catch (System.InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.GetBaseException());
+            }
+            return null;
+        }
+
+        public bool ActualizarContrasenia(string contrasenia, string nickname)
+        {
+            Jugador buscar = db.Jugador.Where(q => q.nickName.Equals(nickname)).FirstOrDefault();
+            if (buscar != null)
+            {
+                buscar.contrasenia = contrasenia;
+                db.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }
