@@ -20,30 +20,41 @@ namespace Memorama.Vista
     /// <summary>
     /// Lógica de interacción para Juego.xaml
     /// </summary>
-    public partial class Juego : ProxyJuego.IJuegoServiceCallback
+    public partial class Juego : ProxyJuego.IJuegoServiceCallback, ProxyEstadisticas.IEstadisticasServiceCallback
     {
         JuegoMemorama juego = new JuegoMemorama();
-
-        Canvas canvas2;
-        InstanceContext contexto;
         Jugador jugador;
         int puntaje = 0;
+        Canvas canvas2;
+        InstanceContext contexto;
         ProxyJuego.JuegoServiceClient servidor;
+        InstanceContext contextoEstadisticas;
+        ProxyEstadisticas.EstadisticasServiceClient servidorEstadisticas;
+        Partida partida;
+        EstadisticaPartida estadisticaJugador;
+
+
+
         ObservableCollection<int> numeros = new ObservableCollection<int>();
         ObservableCollection<int> puntajesJugadores;
         
         private ObservableCollection<Jugador> jugadoresJuego;
-        bool llego = false;
 
-        public Juego(JuegoMemorama juego, Jugador jugador )
+        public Juego(JuegoMemorama juego, Jugador jugador, Partida partida)
         {
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             InitializeComponent();
 
             contexto = new InstanceContext(this);
+            contextoEstadisticas = new InstanceContext(this);
             servidor = new ProxyJuego.JuegoServiceClient(contexto);
+            servidorEstadisticas = new ProxyEstadisticas.EstadisticasServiceClient(contextoEstadisticas);
+
+            this.partida = partida;
+            
             jugadoresJuego = new ObservableCollection<Jugador>();
             puntajesJugadores = new ObservableCollection<int>();
+            estadisticaJugador = new EstadisticaPartida();
             this.jugador = jugador;
             this.juego = juego;
 
@@ -130,6 +141,55 @@ namespace Memorama.Vista
             {
                 puntajesJugadores.Add(p);
             }
+        }
+
+        private void botonSalir(object sender, RoutedEventArgs e)
+        {
+            AsignarPuntajes();
+
+            try
+            {
+                servidorEstadisticas.GuardarEstadisticasPartida(estadisticaJugador, jugador, partida);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public void AsignarPuntajes()
+        {
+            int paresJugador = 0;
+            int contadorPosicionJugadores = 0;
+            int contadorPosicionPuntos = 0;
+            int posicionJugadorEnArreglo = 0;
+
+            foreach(var j in jugadoresJuego)
+            {
+                if(j.nickName == jugador.nickName)
+                {
+                    posicionJugadorEnArreglo = contadorPosicionJugadores;
+                }
+                contadorPosicionJugadores++;
+            }
+
+            foreach(var p in puntajesJugadores)
+            {
+                if(contadorPosicionPuntos == posicionJugadorEnArreglo)
+                {
+                    paresJugador = p;
+                }
+                contadorPosicionPuntos++;
+            }
+
+            estadisticaJugador.paresObtenidos = paresJugador;
+            estadisticaJugador.puntaje = paresJugador;
+        }
+
+
+        public void MostrarEstadistica()
+        {
+            throw new NotImplementedException();
         }
     }
 }

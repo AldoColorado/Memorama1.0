@@ -13,6 +13,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Memorama"
+        Closing="CerrarVentana"
         mc:Ignorable="d"
         Title="Lobby" Height="450" Width="800">
     <Grid>
@@ -34,6 +35,7 @@
         <Button Style="{DynamicResource MaterialDesignRaisedAccentButton}" Content="CREAR PARTIDA" Width="286" HorizontalAlignment="Right" Margin="0,82,477.6,304" Click="BotonCrearPartida" Height="Auto"/>
         <Button Style="{DynamicResource MaterialDesignRaisedAccentButton}" Content="UNIRSE A PARTIDA" Width="286" HorizontalAlignment="Right" Margin="0,131,477.6,255" Click="BotonUnirseAPartida" Height="Auto"/>
         <Button Style="{DynamicResource MaterialDesignRaisedAccentButton}" Content="SALIR" Width="286" HorizontalAlignment="Right" Margin="0,344,477.6,42" Click="BotonSalir" Height="Auto"/>
+        <Button Style="{DynamicResource MaterialDesignRaisedAccentButton}" Content="VER PUNTAJES DE JUGADORES" Width="286" HorizontalAlignment="Right" Margin="0,193,477.6,193" Click="BotonPuntajes" Height="Auto"/>
 
 
     </Grid>

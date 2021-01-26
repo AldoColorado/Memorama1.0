@@ -19,7 +19,6 @@ namespace Memorama
         ProxyLogin.LoginServiceClient servidor;
 
         private ObservableCollection<Jugador> jugadoresConectados;
-        Dictionary<Jugador, ILoginServiceCallback> clientes = new Dictionary<Jugador, ILoginServiceCallback>();
         Jugador jugador = new Jugador();
 
         public Lobby(ObservableCollection<Jugador> jugadores, Jugador jugador)
@@ -27,7 +26,6 @@ namespace Memorama
             this.jugador = jugador;
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             InitializeComponent();
-            //jugadoresConectados = new ObservableCollection<Jugador>(); Creo que no se usa
             TxtJugador.Text = jugador.nickName;
 
             jugadoresEnLinea.Items.Clear();
@@ -76,5 +74,17 @@ namespace Memorama
         }
 
         
+
+        private void CerrarVentana(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            servidor.Desconectarse(jugador);
+        }
+
+        private void BotonPuntajes(object sender, RoutedEventArgs e)
+        {
+            Puntajes ventanPuntajes = new Puntajes();
+            ventanPuntajes.Show();
+            Window.GetWindow(this).Close();
+        }
     }
 }

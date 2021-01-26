@@ -20,7 +20,6 @@ namespace Modelo.Modelo
             }
             catch(System.InvalidOperationException ex)
             {
-                creado = false;
                 Console.WriteLine(ex.GetBaseException());
             }
 
@@ -58,12 +57,12 @@ namespace Modelo.Modelo
 
         }
 
-        public override void Eliminar(object pk)
+        public override bool Eliminar(string pk)
         {
             throw new NotImplementedException();
         }
 
-        public override void Modificar(object entity)
+        public override void Modificar(Partida entity)
         {
             throw new NotImplementedException();
         }
@@ -73,9 +72,9 @@ namespace Modelo.Modelo
             throw new NotImplementedException();
         }
 
-        public override Partida ObtenerEntidad(object pk)
+        public override Partida ObtenerEntidad(string pk)
         {
-            throw new NotImplementedException();
+            return db.Partida.Where(q => q.codigo.Equals(pk)).First<Partida>();
         }
     }
 }

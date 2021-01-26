@@ -64,8 +64,7 @@ namespace Memorama
                     numeroDeCarta -= 27;
                 nombreDeLaCarta = numeroDeCarta.ToString();                     
 
-                Uri uri = new Uri("C:/Users/Daniel Pale/source/repos/Memorama/Memorama1.0/Memorama/bin/Debug/img/" + nombreDeLaCarta + ".png");
-                string direccion = "Modelo.Properties.Resources._" + nombreDeLaCarta + ".png";
+                Uri uri = new Uri("C:/Users/Aldo/Desktop/Memorama/Memorama/bin/Debug/img/" + nombreDeLaCarta + ".png");
                 BitmapImage bmp = new BitmapImage(uri);
                 Image imagen = new Image();
                 imagen.Source = bmp;

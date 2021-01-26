@@ -47,15 +47,13 @@ namespace Memorama
 
         private void BotonIngresar(object sender, RoutedEventArgs e)
         {
-
             Jugador jugador = new Jugador();
             jugador.nickName = TextoNickName.Text;
             jugador.contrasenia = TextoPassword.Password;
 
-            if(Logearse(jugador))
+            if(Logearse())
             {
-                servidor?.Conectarse(jugador);
-                MostrarVentanaLoby(jugador);
+                Conectarse(jugador);
             }
             else
             {
@@ -72,9 +70,9 @@ namespace Memorama
 
         private void BotonRecuperarContrasenia(object sender, RoutedEventArgs e)
         {
-            RecuperarContrasenia ventanaRecuperarContrasenia = new RecuperarContrasenia();
-            Window.GetWindow(this).Close();
-            ventanaRecuperarContrasenia.Show();
+            //RecuperarContrasenia ventanaRecuperarContrasenia = new RecuperarContrasenia();
+            //Window.GetWindow(this).Close();
+            //ventanaRecuperarContrasenia.Show();
         }
 
         public void VerificarUsuarioLogeado(bool logeado)
@@ -82,20 +80,54 @@ namespace Memorama
             this.aceptado = logeado;
         }
 
-        public bool Logearse(Jugador jugador)
+        public bool Logearse()
         {
             bool logeado = false;
 
             try
             {
                 logeado = servidor.Login(TextoNickName.Text, TextoPassword.Password);
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
-                MessageBox.Show("ERROR: El servidor no esta disponible, intente de nuevo más tarde");
+                //MessageBox.Show("ERROR: El servidor no esta disponible, intente de nuevo más tarde");
+                MessageBox.Show(ex.ToString());
+
                 Application.Current.Shutdown();
             }
 
             return logeado;
+        }
+
+        public void Conectarse(Jugador jugador)
+        {
+            bool yaEstaConectado = false;
+
+            try
+            {
+                foreach(var j in servidor.ObtenerClientes())
+                {
+                    if(j.Key.nickName == jugador.nickName)
+                    {
+                        yaEstaConectado = true;
+                    }
+                }
+
+                if(!yaEstaConectado)
+                {
+                    servidor.Conectarse(jugador);
+                    MostrarVentanaLoby(jugador);
+                }
+                else
+                {
+                    MessageBox.Show("El jugador ya se encuentra conectado");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("ERROR: El servidor no esta disponible, intente de nuevo más tarde");
+                Application.Current.Shutdown();
+            }
         }
 
         public void UsuariosConectados(Jugador[] jugadores)

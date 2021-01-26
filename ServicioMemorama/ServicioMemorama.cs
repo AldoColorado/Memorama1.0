@@ -16,7 +16,6 @@ namespace ServicioMemorama
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
     ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = true)]
 
-
     public partial class ServicioMemorama : ILoginService
     {
         private ILoginServiceCallback callBackActual = null;
@@ -31,56 +30,52 @@ namespace ServicioMemorama
 
         public bool Login(string nombre, string contrasenia)
         {
-            Console.WriteLine("Estoy en Login xd");
-            bool seLogeo = false;
             bool usuarioLogueado = false;
             JugadorDAO usuarioALoguear = new JugadorDAO();
+
+            string contraseniaEncriptada = string.Empty;
+            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(contrasenia);
+            contraseniaEncriptada = Convert.ToBase64String(encryted);
+
+            usuarioLogueado = usuarioALoguear.ValidarUsuario(nombre, contraseniaEncriptada);
+
+            if(usuarioLogueado)
+            {
+                Console.WriteLine("Usuario Logeado");
+            }
+            else
+            {
+                Console.WriteLine("No paso Logeado");
+            }
+            return usuarioLogueado;
+        }
+
+        public void Conectarse(Jugador jugador)
+        {
+            Console.WriteLine("Si entro aqui");
+            
             try
             {
-                string contraseniaEncriptada = string.Empty;
-                byte[] encryted = System.Text.Encoding.Unicode.GetBytes(contrasenia);
-                contraseniaEncriptada = Convert.ToBase64String(encryted);
-
-                usuarioLogueado = usuarioALoguear.ValidarUsuario(nombre, contraseniaEncriptada);
-
-                if (usuarioLogueado)
+                if(!BuscarClientePorNombre(jugador.nickName))
                 {
-                    Console.WriteLine("Usuario Logeado");
-                    seLogeo = true;
-                }
-                else
-                {
-                    Console.WriteLine("No paso Logeado");
+                    callBackActual = OperationContext.Current.GetCallbackChannel<ILoginServiceCallback>();
+
+                    if(callBackActual != null)
+                    {
+                        clientes.Add(jugador, callBackActual);
+                        jugadores.Add(jugador);
+                        clientes?.ToList().ForEach(c => c.Value.UsuariosConectados(jugadores));
+                        Console.WriteLine($"{jugador.nickName} se ha conectado");
+                    }
                 }
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return seLogeo;
+            
         }
-
-        public void Conectarse(Jugador jugador)
-        {
-            if( !BuscarClientePorNombre(jugador.nickName))
-            {
-                callBackActual = OperationContext.Current.GetCallbackChannel<ILoginServiceCallback>();
-
-                if(callBackActual != null)
-                {
-                    clientes.Add(jugador, callBackActual);
-                    jugadores.Add(jugador);
-                    clientes?.ToList().ForEach(c => c.Value.UsuariosConectados(jugadores));
-
-                    foreach(Jugador c in jugadores)
-                    {
-                        Console.WriteLine(c.nickName);
-                    }
-                    Console.WriteLine($"{jugador.nickName} se ha conectado");
-                }
-            }    
-        }
-
+        
         public bool BuscarClientePorNombre(string nickName)
         {
             bool encontrado = false;
@@ -137,7 +132,6 @@ namespace ServicioMemorama
             {
                 Console.WriteLine("No se creo");
             }
-
         }
 
         public void EnviarCorreoRegistro(string correo, string codigoDeRegistro)
@@ -185,92 +179,6 @@ namespace ServicioMemorama
         }
     }
 
-    public partial class ServicioMemorama : IRecuperarContraseniaService
-    {
-        public bool EnviarCorreoRecuperacion(string correo, string codigoRecuperacion)
-        {
-            bool correoEnviado;
-
-            System.Net.Mail.MailMessage mail = new System.Net.Mail.MailMessage();
-
-            mail.To.Add(correo);
-            mail.Subject = "Código de recuperación de contraseña";
-            mail.SubjectEncoding = System.Text.Encoding.UTF8;
-            mail.Body = "Tu código de recuperación es: " + codigoRecuperacion;
-            mail.BodyEncoding = System.Text.Encoding.UTF8;
-            mail.IsBodyHtml = true;
-            mail.From = new System.Net.Mail.MailAddress("memogamelisuv@gmail.com");
-
-            System.Net.Mail.SmtpClient cliente = new System.Net.Mail.SmtpClient();
-
-            cliente.Credentials = new System.Net.NetworkCredential("memogamelisuv@gmail.com", "luzio1234");
-
-            cliente.Port = 587;
-            cliente.EnableSsl = true;
-
-            cliente.Host = "smtp.gmail.com";
-
-            try
-            {
-                cliente.Send(mail);
-                correoEnviado = true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.GetBaseException());
-                correoEnviado = false;
-            }
-
-            if (correoEnviado)
-            {
-                Console.WriteLine("El correo se ha enviado");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("No se pudo enviar el correo");
-                return false;
-            }
-        }
-
-        public bool ValidarJugadorPorCorreo(string correo)
-        {
-            bool encontrado;
-            JugadorDAO jugadorABuscar = new JugadorDAO();
-
-            encontrado = jugadorABuscar.ValidarJugadorPorCorreo(correo);
-
-            if (encontrado)
-            {
-                Console.WriteLine("Se encontró jugador");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("No se encontró jugador");
-                return false;
-            }
-        }
-
-        public bool ActualizarContrasenia(string contrasenia, string correo)
-        {
-            JugadorDAO jugadorDAO = new JugadorDAO();
-            Jugador jugador = jugadorDAO.ObtenerJugadorPorCorreo(correo);
-            bool seCambioContrasenia = false;
-
-            if (jugador != null)
-            {
-                seCambioContrasenia = jugadorDAO.ActualizarContrasenia(contrasenia, jugador.nickName);
-                Console.WriteLine("Se actulizó contraseña");
-            }
-            else
-            {
-                Console.WriteLine("No se encontró jugador");
-                return false;
-            }
-            return seCambioContrasenia;
-        }
-    }
     public partial class ServicioMemorama : IPartidaService
     {
         private ObservableCollection<Jugador> jugadoresEnPartida = new ObservableCollection<Jugador>();
@@ -338,26 +246,39 @@ namespace ServicioMemorama
             return codigoCorrecto;
         }
 
-        public bool CrearPartida(Partida partida)
+        public bool CrearPartida(Partida partida, Jugador jugador)
         {
             bool creada = false;
+            Jugador jugadorConsultado;
+            Partida partidaConsultada;
+            EstadisticaPartida estadisticaPartida = new EstadisticaPartida();
+
+            JugadorDAO jugadorDAO = new JugadorDAO();
             PartidaDAO partidaDAO = new PartidaDAO();
+            EstadisticaPartidaDAO estadisticaPartidaDAO = new EstadisticaPartidaDAO();
+
             try
             {
                 creada = partidaDAO.Crear(partida);
+                jugadorConsultado = jugadorDAO.ObtenerEntidad(jugador.nickName);
+                partidaConsultada = partidaDAO.ObtenerEntidad(partida.codigo);
+                estadisticaPartida.idJugador = jugadorConsultado.idJugador;
+                estadisticaPartida.idPartida = partidaConsultada.idPartida;
 
-                if (creada)
-                {
-                    Console.WriteLine("Partida creada");
-                }
-                else
-                {
-                    Console.WriteLine("Partida no creada");
-                }
+                estadisticaPartidaDAO.Crear(estadisticaPartida);
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+            }
+            
+            if(creada)
+            {
+                Console.WriteLine("Partida creada");
+            }
+            else
+            {
+                Console.WriteLine("Partida no creada");
             }
             return creada;
         }
@@ -415,12 +336,20 @@ namespace ServicioMemorama
                     }
                     while(numeros.Count < 2 * contador);
 
-                }
-                foreach(var c in clientesEnPartida)
-                {
-                    c.Value.OrdenCartas(numeros);
-                }
+                    foreach(var c in clientesEnPartida)
+                    {
+                        c.Value.OrdenCartas(numeros);
+                    }
 
+                }
+                else
+                {
+                    foreach(var c in clientesEnPartida)
+                    {
+                        c.Value.OrdenCartas(numeros);
+                    }
+                }
+                
                 string nums = "";
                 foreach(var n in numeros)
                 {
@@ -514,8 +443,7 @@ namespace ServicioMemorama
                         }
                         contadorColeccionJugadores++;
                     }
-                    Console.WriteLine(indice);
-
+                    
                     int contadorColeccionPuntajes = 0;
 
                     foreach(var c in puntajesTemporal)
@@ -544,7 +472,6 @@ namespace ServicioMemorama
         public void MovimientoDeJugador(double x, double y)
         {
             callBackActualJuego = OperationContext.Current.GetCallbackChannel<IJuegoServiceCallback>();
-
             try
             {
                 if(callBackActualJuego != null)
@@ -562,6 +489,98 @@ namespace ServicioMemorama
             {
                 Console.WriteLine(ex.ToString());
             }         
+        }
+    }
+
+    public partial class ServicioMemorama : IEstadisticasService
+    {
+        List<Jugador> listaDejugadores = new List<Jugador>();
+        List<int> listaDepuntajes = new List<int>();
+
+        public bool GuardarEstadisticasPartida(EstadisticaPartida estadisticaPartida, Jugador jugador, Partida partida)
+        {
+            bool estadisticaGuardada = false;
+
+            Jugador jugadorConsultado = new Jugador();
+            Partida partidaConsultada = new Partida();
+
+            EstadisticaPartidaDAO estadisticaDAO = new EstadisticaPartidaDAO();
+            JugadorDAO jugadorDAO = new JugadorDAO();
+            PartidaDAO partidaDAO = new PartidaDAO();
+
+            try
+            {
+                jugadorConsultado = jugadorDAO.ObtenerEntidad(jugador.nickName);
+                partidaConsultada = partidaDAO.ObtenerEntidad(partida.codigo);
+
+                estadisticaPartida.idJugador = jugadorConsultado.idJugador;
+                estadisticaPartida.idPartida = partidaConsultada.idPartida;
+                
+                estadisticaDAO.Modificar(estadisticaPartida);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return estadisticaGuardada;
+        }
+
+        public bool GenerarTablaDePuntajes()
+        {
+            bool generada = false;
+            
+            List<EstadisticaPartida> estadisticas = new List<EstadisticaPartida>();
+            JugadorDAO jugadorDAO = new JugadorDAO();
+
+            EstadisticaPartidaDAO estadisticaPartidaDAO = new EstadisticaPartidaDAO();
+
+            try
+            {
+                listaDejugadores = jugadorDAO.Obtener();
+                estadisticas = estadisticaPartidaDAO.Obtener();
+
+                foreach(var jugador in listaDejugadores)
+                {
+                    int puntaje = 0;
+                    foreach(var estadistica in estadisticas)
+                    {
+                        if(jugador.idJugador == estadistica.idJugador)
+                        {
+                            puntaje += estadistica.puntaje.GetValueOrDefault();
+                        }
+                    }
+                    listaDepuntajes.Add(puntaje);
+                }
+
+                generada = true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            Console.WriteLine(generada.ToString());
+            return generada;
+
+        }
+
+        public List<Jugador> ObtenerListaDeJugadores()
+        {
+            try
+            {
+                return listaDejugadores;
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return listaDejugadores;
+
+        }
+
+        public List<int> ObtenerPuntajesJugadores()
+        {
+            return listaDepuntajes;
         }
     }
 }

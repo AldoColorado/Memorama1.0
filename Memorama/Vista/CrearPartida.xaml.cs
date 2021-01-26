@@ -38,19 +38,6 @@ namespace Memorama.Vista
             contexto = new InstanceContext(this);
             servidor = new ProxyPartida.PartidaServiceClient(contexto);
 
-            //servidor.AgregarJugador(jugador);
-            System.Threading.Thread.Sleep(2000);
-
-        }
-
-        public void JugadoresEnPartida(Jugador[] jugadores)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OrdenCartas(int[] numeros)
-        {
-            throw new NotImplementedException();
         }
 
         private void BotonCrearPartida(object sender, RoutedEventArgs e)
@@ -66,21 +53,34 @@ namespace Memorama.Vista
         private void BotonIniciarPartida(object sender, RoutedEventArgs e)
         {
             bool creada = false;
-
-            creada = servidor.CrearPartida(partida);
-
-            if(creada)
+            if(partida.codigo != null )
             {
-                MessageBox.Show("Registro completado con exito");
+                creada = servidor.CrearPartida(partida, jugador);
             }
             else
             {
-                MessageBox.Show("No se pudo crear la partida");
+                MessageBox.Show("Debes generar el codigo de partida para continuar");
+                return;
+            }
+
+            if(!creada)
+            {
+                MessageBox.Show("ERROR: El servidor no esta disponible, intente de nuevo más tarde");
             }
 
             PrePartida ventanaPrePartida = new PrePartida(jugador, codigoPartida);
             ventanaPrePartida.Show();
             Window.GetWindow(this).Close();
+        }
+
+        public void JugadoresEnPartida(Jugador[] jugadores)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OrdenCartas(int[] numeros)
+        {
+            throw new NotImplementedException();
         }
     }
 }
