@@ -14,7 +14,7 @@ namespace ServicioMemorama
     public interface IPartidaService
     {
         [OperationContract]
-        bool CrearPartida(Partida partida);
+        bool CrearPartida(Partida partida, Jugador jugador);
 
         [OperationContract]
         string GenerarCodigo();

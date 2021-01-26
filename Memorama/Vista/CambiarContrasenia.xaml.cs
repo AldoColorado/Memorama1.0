@@ -32,7 +32,7 @@ namespace Memorama
         public void BotonCambiarContrasenia(object sender, RoutedEventArgs e)
         {
             bool seActualizoContrasenia = false;
-            if (TextoNuevaContrasenia.Password == TextoConfirmacionContrasenia.Password)
+            if(TextoNuevaContrasenia.Password == TextoConfirmacionContrasenia.Password)
             {
                 string contraseniaEncriptada = string.Empty;
                 byte[] encryted = System.Text.Encoding.Unicode.GetBytes(TextoNuevaContrasenia.Password);

@@ -33,7 +33,7 @@ namespace Memorama
         {
             string codigoIngresado = TextoCodigo.Text;
 
-            if (codigoIngresado == codigo)
+            if(codigoIngresado == codigo)
             {
                 CambiarContrasenia ventanaCambiarContrasenia = new CambiarContrasenia(correo);
                 ventanaCambiarContrasenia.Show();

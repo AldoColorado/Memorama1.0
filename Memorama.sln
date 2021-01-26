@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memorama", "Memorama\Memora
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicioMemorama", "ServicioMemorama\ServicioMemorama.csproj", "{057A5615-3D2F-47FE-84D3-0E650455178D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebasUnitarias", "PruebasUnitarias\PruebasUnitarias.csproj", "{A53EAC47-A29B-4265-B1C1-FE1B705D1AED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{057A5615-3D2F-47FE-84D3-0E650455178D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{057A5615-3D2F-47FE-84D3-0E650455178D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{057A5615-3D2F-47FE-84D3-0E650455178D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A53EAC47-A29B-4265-B1C1-FE1B705D1AED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A53EAC47-A29B-4265-B1C1-FE1B705D1AED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A53EAC47-A29B-4265-B1C1-FE1B705D1AED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A53EAC47-A29B-4265-B1C1-FE1B705D1AED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

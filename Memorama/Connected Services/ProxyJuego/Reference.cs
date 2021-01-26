@@ -202,10 +202,10 @@ namespace Memorama.ProxyJuego {
     public interface IPartidaService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPartidaService/CrearPartida", ReplyAction="http://tempuri.org/IPartidaService/CrearPartidaResponse")]
-        bool CrearPartida(Modelo.Modelo.Partida partida);
+        bool CrearPartida(Modelo.Modelo.Partida partida, Modelo.Modelo.Jugador jugador);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPartidaService/CrearPartida", ReplyAction="http://tempuri.org/IPartidaService/CrearPartidaResponse")]
-        System.Threading.Tasks.Task<bool> CrearPartidaAsync(Modelo.Modelo.Partida partida);
+        System.Threading.Tasks.Task<bool> CrearPartidaAsync(Modelo.Modelo.Partida partida, Modelo.Modelo.Jugador jugador);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPartidaService/GenerarCodigo", ReplyAction="http://tempuri.org/IPartidaService/GenerarCodigoResponse")]
         string GenerarCodigo();
@@ -282,12 +282,12 @@ namespace Memorama.ProxyJuego {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public bool CrearPartida(Modelo.Modelo.Partida partida) {
-            return base.Channel.CrearPartida(partida);
+        public bool CrearPartida(Modelo.Modelo.Partida partida, Modelo.Modelo.Jugador jugador) {
+            return base.Channel.CrearPartida(partida, jugador);
         }
         
-        public System.Threading.Tasks.Task<bool> CrearPartidaAsync(Modelo.Modelo.Partida partida) {
-            return base.Channel.CrearPartidaAsync(partida);
+        public System.Threading.Tasks.Task<bool> CrearPartidaAsync(Modelo.Modelo.Partida partida, Modelo.Modelo.Jugador jugador) {
+            return base.Channel.CrearPartidaAsync(partida, jugador);
         }
         
         public string GenerarCodigo() {
@@ -439,6 +439,61 @@ namespace Memorama.ProxyJuego {
         
         public System.Threading.Tasks.Task ModificarPuntajesAsync(Modelo.Modelo.Jugador jugador, int puntaje) {
             return base.Channel.ModificarPuntajesAsync(jugador, puntaje);
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ProxyJuego.IEstadisticasService", CallbackContract=typeof(Memorama.ProxyJuego.IEstadisticasServiceCallback))]
+    public interface IEstadisticasService {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IEstadisticasService/GuardarEstadisticasPartida", ReplyAction="http://tempuri.org/IEstadisticasService/GuardarEstadisticasPartidaResponse")]
+        bool GuardarEstadisticasPartida(Modelo.Modelo.EstadisticaPartida estadisticaPartida, Modelo.Modelo.Jugador jugador, Modelo.Modelo.Partida partida);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IEstadisticasService/GuardarEstadisticasPartida", ReplyAction="http://tempuri.org/IEstadisticasService/GuardarEstadisticasPartidaResponse")]
+        System.Threading.Tasks.Task<bool> GuardarEstadisticasPartidaAsync(Modelo.Modelo.EstadisticaPartida estadisticaPartida, Modelo.Modelo.Jugador jugador, Modelo.Modelo.Partida partida);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IEstadisticasServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IEstadisticasService/MostrarEstadistica", ReplyAction="http://tempuri.org/IEstadisticasService/MostrarEstadisticaResponse")]
+        void MostrarEstadistica();
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IEstadisticasServiceChannel : Memorama.ProxyJuego.IEstadisticasService, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class EstadisticasServiceClient : System.ServiceModel.DuplexClientBase<Memorama.ProxyJuego.IEstadisticasService>, Memorama.ProxyJuego.IEstadisticasService {
+        
+        public EstadisticasServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
+        }
+        
+        public EstadisticasServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
+        }
+        
+        public EstadisticasServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public EstadisticasServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public EstadisticasServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
+        }
+        
+        public bool GuardarEstadisticasPartida(Modelo.Modelo.EstadisticaPartida estadisticaPartida, Modelo.Modelo.Jugador jugador, Modelo.Modelo.Partida partida) {
+            return base.Channel.GuardarEstadisticasPartida(estadisticaPartida, jugador, partida);
+        }
+        
+        public System.Threading.Tasks.Task<bool> GuardarEstadisticasPartidaAsync(Modelo.Modelo.EstadisticaPartida estadisticaPartida, Modelo.Modelo.Jugador jugador, Modelo.Modelo.Partida partida) {
+            return base.Channel.GuardarEstadisticasPartidaAsync(estadisticaPartida, jugador, partida);
         }
     }
 }

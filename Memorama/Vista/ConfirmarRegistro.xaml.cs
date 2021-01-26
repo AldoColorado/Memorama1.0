@@ -39,7 +39,7 @@ namespace Memorama
 
         public void VerificarCreacionJugador(bool creado)
         {
-            throw new NotImplementedException();
+            this.creado = creado;
         }
 
         public void VerificarEnvioDeCorreo(bool enviado)

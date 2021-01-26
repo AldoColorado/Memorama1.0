@@ -49,16 +49,6 @@
           <Property Name="idPartida" Type="int" Nullable="false" />
           <Property Name="idTarjeta" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="Tarjeta">
           <Key>
             <PropertyRef Name="idTarjeta" />
@@ -132,7 +122,6 @@
           <EntitySet Name="Jugador" EntityType="Self.Jugador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Partida" EntityType="Self.Partida" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PartidaTarjeta" EntityType="Self.PartidaTarjeta" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tarjeta" EntityType="Self.Tarjeta" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Historial_Jugador" Association="Self.FK_Historial_Jugador">
             <End Role="Jugador" EntitySet="Jugador" />
@@ -202,16 +191,6 @@
           <NavigationProperty Name="EstadisticaPartida" Relationship="Self.FK_Partida" FromRole="Partida" ToRole="EstadisticaPartida" />
           <NavigationProperty Name="Tarjeta" Relationship="Self.PartidaTarjeta" FromRole="Partida" ToRole="Tarjeta" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="Tarjeta">
           <Key>
             <PropertyRef Name="idTarjeta" />
@@ -265,7 +244,6 @@
           <EntitySet Name="Historial" EntityType="Self.Historial" />
           <EntitySet Name="Jugador" EntityType="Self.Jugador" />
           <EntitySet Name="Partida" EntityType="Self.Partida" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Tarjeta" EntityType="Self.Tarjeta" />
           <AssociationSet Name="FK_Jugador" Association="Self.FK_Jugador">
             <End Role="Jugador" EntitySet="Jugador" />
@@ -326,17 +304,6 @@
               <MappingFragment StoreEntitySet="Partida">
                 <ScalarProperty Name="idPartida" ColumnName="idPartida" />
                 <ScalarProperty Name="codigo" ColumnName="codigo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="MemoramaModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

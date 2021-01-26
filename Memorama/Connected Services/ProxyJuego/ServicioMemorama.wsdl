@@ -116,6 +116,35 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="NetTcpBinding_IEstadisticasService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:9090/?xsd=xsd0" namespace="http://tempuri.org/" />
@@ -229,6 +258,18 @@
   <wsdl:message name="IJuegoService_ActualizarPuntajes_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:ActualizarPuntajes" />
   </wsdl:message>
+  <wsdl:message name="IEstadisticasService_GuardarEstadisticasPartida_InputMessage">
+    <wsdl:part name="parameters" element="tns:GuardarEstadisticasPartida" />
+  </wsdl:message>
+  <wsdl:message name="IEstadisticasService_GuardarEstadisticasPartida_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GuardarEstadisticasPartidaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEstadisticasService_MostrarEstadistica_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:MostrarEstadistica" />
+  </wsdl:message>
+  <wsdl:message name="IEstadisticasService_MostrarEstadistica_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:MostrarEstadisticaResponse" />
+  </wsdl:message>
   <wsdl:portType name="ILoginService">
     <wsdl:operation name="Login">
       <wsdl:input wsaw:Action="http://tempuri.org/ILoginService/Login" message="tns:ILoginService_Login_InputMessage" />
@@ -324,6 +365,16 @@
     </wsdl:operation>
     <wsdl:operation name="ActualizarPuntajes">
       <wsdl:output wsaw:Action="http://tempuri.org/IJuegoService/ActualizarPuntajes" message="tns:IJuegoService_ActualizarPuntajes_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IEstadisticasService">
+    <wsdl:operation name="GuardarEstadisticasPartida">
+      <wsdl:input wsaw:Action="http://tempuri.org/IEstadisticasService/GuardarEstadisticasPartida" message="tns:IEstadisticasService_GuardarEstadisticasPartida_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IEstadisticasService/GuardarEstadisticasPartidaResponse" message="tns:IEstadisticasService_GuardarEstadisticasPartida_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MostrarEstadistica">
+      <wsdl:output wsaw:Action="http://tempuri.org/IEstadisticasService/MostrarEstadistica" message="tns:IEstadisticasService_MostrarEstadistica_OutputCallbackMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/IEstadisticasService/MostrarEstadisticaResponse" message="tns:IEstadisticasService_MostrarEstadistica_InputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_ILoginService" type="tns:ILoginService">
@@ -528,6 +579,28 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
+  <wsdl:binding name="NetTcpBinding_IEstadisticasService" type="tns:IEstadisticasService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IEstadisticasService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="GuardarEstadisticasPartida">
+      <soap12:operation soapAction="http://tempuri.org/IEstadisticasService/GuardarEstadisticasPartida" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MostrarEstadistica">
+      <soap12:operation soapAction="http://tempuri.org/IEstadisticasService/MostrarEstadistica" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
   <wsdl:service name="ServicioMemorama">
     <wsdl:port name="NetTcpBinding_ILoginService" binding="tns:NetTcpBinding_ILoginService">
       <soap12:address location="net.tcp://localhost:8060/ServicioMemorama" />
@@ -557,6 +630,15 @@
       </wsa10:EndpointReference>
     </wsdl:port>
     <wsdl:port name="NetTcpBinding_IJuegoService" binding="tns:NetTcpBinding_IJuegoService">
+      <soap12:address location="net.tcp://localhost:8060/ServicioMemorama" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8060/ServicioMemorama</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>LAPTOP-IAJ58MB2\Aldo</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="NetTcpBinding_IEstadisticasService" binding="tns:NetTcpBinding_IEstadisticasService">
       <soap12:address location="net.tcp://localhost:8060/ServicioMemorama" />
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8060/ServicioMemorama</wsa10:Address>

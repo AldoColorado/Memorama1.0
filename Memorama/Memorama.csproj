@@ -75,6 +75,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\ProxyEstadisticas\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ProxyJuego\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -90,11 +95,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Connected Services\ProxyRecuperarContrasenia\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Connected Services\ProxyRegistro\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -102,9 +102,6 @@
     </Compile>
     <Compile Include="Juego\JuegoMemorama.cs" />
     <Compile Include="Juego\Tablero.cs" />
-    <Compile Include="Vista\CambiarContrasenia.xaml.cs">
-      <DependentUpon>CambiarContrasenia.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vista\ConfirmarRegistro.xaml.cs">
       <DependentUpon>ConfirmarRegistro.xaml</DependentUpon>
     </Compile>
@@ -127,11 +124,8 @@
     <Compile Include="Vista\PrePartida.xaml.cs">
       <DependentUpon>PrePartida.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vista\RecuperarContrasenia.xaml.cs">
-      <DependentUpon>RecuperarContrasenia.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\RecuperarContraseniaCodigo.xaml.cs">
-      <DependentUpon>RecuperarContraseniaCodigo.xaml</DependentUpon>
+    <Compile Include="Vista\Puntajes.xaml.cs">
+      <DependentUpon>Puntajes.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vista\Registrarse.xaml.cs">
       <DependentUpon>Registrarse.xaml</DependentUpon>
@@ -139,10 +133,6 @@
     <Compile Include="Vista\UnirseAPartida.xaml.cs">
       <DependentUpon>UnirseAPartida.xaml</DependentUpon>
     </Compile>
-    <Page Include="Vista\CambiarContrasenia.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Vista\ConfirmarRegistro.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -167,11 +157,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Vista\RecuperarContrasenia.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\RecuperarContraseniaCodigo.xaml">
+    <Page Include="Vista\Puntajes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,6 +188,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\ProxyEstadisticas\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyEstadisticas\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyEstadisticas\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyEstadisticas\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ProxyEstadisticas\ServicioMemorama.wsdl" />
     <None Include="Connected Services\ProxyJuego\item.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -241,19 +240,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ProxyPartida\ServicioMemorama.wsdl" />
-    <None Include="Connected Services\ProxyRecuperarContrasenia\item.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ProxyRecuperarContrasenia\item1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ProxyRecuperarContrasenia\item2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ProxyRecuperarContrasenia\item3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ProxyRecuperarContrasenia\ServicioMemorama.wsdl" />
     <None Include="Connected Services\ProxyRegistro\item.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -292,23 +278,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ProxyEstadisticas\" />
     <WCFMetadataStorage Include="Connected Services\ProxyJuego\" />
     <WCFMetadataStorage Include="Connected Services\ProxyLogin\" />
     <WCFMetadataStorage Include="Connected Services\ProxyPartida\" />
-    <WCFMetadataStorage Include="Connected Services\ProxyRecuperarContrasenia\" />
     <WCFMetadataStorage Include="Connected Services\ProxyRegistro\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ProxyLogin\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ProxyLogin\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\ProxyLogin\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\ProxyRegistro\configuration91.svcinfo" />
@@ -347,13 +321,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ProxyRecuperarContrasenia\configuration91.svcinfo" />
+    <None Include="Connected Services\ProxyLogin\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ProxyRecuperarContrasenia\configuration.svcinfo" />
+    <None Include="Connected Services\ProxyLogin\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ProxyRecuperarContrasenia\Reference.svcmap">
+    <None Include="Connected Services\ProxyLogin\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ProxyEstadisticas\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ProxyEstadisticas\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ProxyEstadisticas\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

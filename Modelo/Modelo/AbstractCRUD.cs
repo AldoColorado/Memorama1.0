@@ -12,10 +12,10 @@ namespace Modelo
     {
         protected MemoramaEntities db = new MemoramaEntities();
         public abstract bool Crear(T entity);
-        public abstract void Modificar(object entity);
-        public abstract void Eliminar(object pk);
+        public abstract void Modificar(T entity);
+        public abstract bool Eliminar(string pk);
         public abstract List<T> Obtener();
-        public abstract T ObtenerEntidad(Object pk);
+        public abstract T ObtenerEntidad(string pk);
         
     }
 }
